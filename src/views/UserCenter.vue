@@ -14,6 +14,11 @@ export default {
     }),
     methods: {
         
+    },
+    mounted() {
+        this.$get('http://www.baidu.com').then(resp => {
+            console.log(resp)
+        })
     }
 }
 </script>

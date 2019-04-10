@@ -8,10 +8,9 @@ import VCharts from 'v-charts'
 // router
 import router from './router.js'
 // ajax
-import axios from 'axios'
+import './api.js'
 
 Vue.config.productionTip = false
-Vue.prototype.$http = axios
 
 Vue.use(ElementUI)
 Vue.use(VCharts)

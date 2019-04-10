@@ -23,22 +23,8 @@ html, body
 
 <template lang="pug">
 #app
-  el-container
-    el-header
-        el-menu(default-active="./UserCenter" 
-                background-color="#545c64" text-color="#fff" active-text-color="#ffd04b"
-                mode="horizontal"
-                :router="true")
-            el-menu-item(index="/UserCenter") 个人中心
-            el-submenu(index="2") 
-                template(slot="title") 社团管理
-                el-menu-item(index="/Affair") 事务管理
-                el-menu-item(index="/Activity") 活动管理
-                el-menu-item(index="/Finance") 财务管理
-            el-menu-item(index="/Federation") 社联管理
-        el-main
-            router-view
-    
+  router-view
+
 </template>
 
 <script>
