@@ -10,6 +10,8 @@ import Affair from './views/Affair.vue'
 import Federation from './views/Federation.vue'
 import Finance from './views/Finance.vue'
 import Activity from './views/Activity.vue'
+import ClubList from './views/ClubList.vue'
+
 import Login from './views/login/Login'
 
 const routes = [
@@ -22,6 +24,7 @@ const routes = [
       { path: 'Federation', component: Federation },
       { path: 'Finance', component: Finance },
       { path: 'Activity', component: Activity },
+      { path: 'ClubList', component: ClubList },
       { path: 'Affair', component: Affair }
     ]
   }
