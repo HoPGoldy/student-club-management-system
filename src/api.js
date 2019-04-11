@@ -1,5 +1,6 @@
 import Vue from 'vue'
-import router from './router.js';
+import router from './router.js'
+import config from './config.js'
 
 const axios = require('axios')
 
@@ -25,7 +26,8 @@ axios.interceptors.request.use(axiosConfig => {
     return axiosConfig
 })
 
-export const $get = (url, params = {}) => {
+export const $get = (path, params = {}, server='test') => {
+    let url = /http/.test(path) ? path : config.servers[server] + path
     return axios({ url, params, method: 'get' })
 }
 

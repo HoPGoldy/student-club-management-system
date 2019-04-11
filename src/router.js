@@ -12,6 +12,8 @@ import Finance from './views/Finance.vue'
 import Activity from './views/Activity.vue'
 import ClubList from './views/ClubList.vue'
 
+import ClubPage from './components/clubComp/ClubPage.vue'
+
 import Login from './views/login/Login'
 
 const routes = [
@@ -25,10 +27,10 @@ const routes = [
       { path: 'Finance', component: Finance },
       { path: 'Activity', component: Activity },
       { path: 'ClubList', component: ClubList },
+      { path: 'ClubPage/:clubId', component: ClubPage, props: true },
       { path: 'Affair', component: Affair }
     ]
   }
-  
 ]
 
 export default new VueRouter({

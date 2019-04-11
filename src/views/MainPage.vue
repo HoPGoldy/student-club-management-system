@@ -33,14 +33,14 @@ el-container
                 :router="true")
             el-menu-item(index="/main/UserCenter") 个人中心
             el-menu-item(index="/main/ClubList") 社团列表
-            el-submenu(index="2") 
+            el-submenu(index="2")
                 template(slot="title") 社团管理
                 el-menu-item(index="/main/Affair") 事务管理
                 el-menu-item(index="/main/Activity") 活动管理
                 el-menu-item(index="/main/Finance") 财务管理
             el-menu-item(index="/main/Federation") 社联管理
     el-main
-        router-view(to="main" append)
+        router-view
     el-dropdown.login(@command='userAction')
         img.avatar(src="../images/avatar.png")
         el-dropdown-menu(slot='dropdown')

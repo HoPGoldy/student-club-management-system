@@ -55,7 +55,7 @@
                 span.user-level {{userInfo.level}}
         .activity-info
             .activity-title 已加入的社团
-            .added-club(v-for="club in userInfo.addedClub")
+            .added-club(v-for="club in userInfo.addedClub" @click="enterClub(club.id)")
                 span {{club.name}}
                 span(style="float: right;") >
     .new-list
@@ -79,13 +79,16 @@ export default {
         }
     }),
     methods: {
-        
+        enterClub(clubId) {
+            console.log('访问社团', clubId)
+            this.$router.push(`/main/ClubPage/${clubId}`)
+        }
     },
     mounted() {
-        this.$get('https://easy-mock.com/mock/5cadfead29a8d4218251754e/student-club-management-system/v1/user/getNews').then(resp => {
+        this.$get('/v1/user/getNews').then(resp => {
             this.news = resp.data.data
         })
-        this.$get('https://easy-mock.com/mock/5cadfead29a8d4218251754e/student-club-management-system/v1/user/getUserInfo').then(resp => {
+        this.$get('/v1/user/getUserInfo').then(resp => {
             this.userInfo = resp.data.data
         })
     }
