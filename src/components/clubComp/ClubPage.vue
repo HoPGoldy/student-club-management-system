@@ -1,8 +1,23 @@
 <style scoped lang="stylus">
 .container
     display flex
+    flex-direction column
+    align-items center
+.header
+    width 70%
+    .el-carousel__item
+        color #475669
+        line-height 200px
+        margin 0
+        &:nth-child(2n)
+            background-color #99a9bf
+        &:nth-child(2n+1)
+            background-color #d3dce6
+.content
+    display flex
     flex-direction row
     justify-content center
+    width 100%
     .left-panel
         width 20%
         margin-top 8px
@@ -64,31 +79,35 @@
 
 <template lang="pug">
 .container
-    .left-panel
-        .club-info
-            .club-name {{clubInfo.name}}
-            div
-                span 社团负责人 
-                span.info-list-item {{clubInfo.principal}}
-            div
-                span 当前人数 
-                span.info-list-item {{clubInfo.memberNum}}
-        .regulation-info(@click="regulationVisible = !regulationVisible")
-            .sub-title 规章制度
-            .regulation-line(v-for="item in regulations")
-                span {{item}}
-    .new-list
-        el-card(v-for="newInfo in news" shadow="hover")
-            .clearfix(slot="header")
-                span(style="float: left; padding: 3px") {{newInfo.title}}
-                span(style="float: right; padding: 3px") {{newInfo.date}}
-            .message {{newInfo.message}}
-    .right-panel
-        .acitvity-list
-            .sub-title(style="border-bottom: 1px solid #e5e5e5") 活动
-            .acitvity-line(v-for="item in acitvitys")
-                span.acitvity-title {{item.title}}
-                el-tag(style="float: right;" :type="item.stateType") {{item.stateContent}}
+    .header
+        el-carousel(:interval="4000" type="card" height="300px")
+            el-carousel-item(v-for="item in 6" :key="item")
+    .content
+        .left-panel
+            .club-info
+                .club-name {{clubInfo.name}}
+                div
+                    span 社团负责人 
+                    span.info-list-item {{clubInfo.principal}}
+                div
+                    span 当前人数 
+                    span.info-list-item {{clubInfo.memberNum}}
+            .regulation-info(@click="regulationVisible = !regulationVisible")
+                .sub-title 规章制度
+                .regulation-line(v-for="item in regulations")
+                    span {{item}}
+        .new-list
+            el-card(v-for="newInfo in news" shadow="hover")
+                .clearfix(slot="header")
+                    span(style="float: left; padding: 3px") {{newInfo.title}}
+                    span(style="float: right; padding: 3px") {{newInfo.date}}
+                .message {{newInfo.message}}
+        .right-panel
+            .acitvity-list
+                .sub-title(style="border-bottom: 1px solid #e5e5e5") 活动
+                .acitvity-line(v-for="item in acitvitys")
+                    span.acitvity-title {{item.title}}
+                    el-tag(style="float: right;" :type="item.stateType") {{item.stateContent}}
     el-dialog(title="规章制度" :visible.sync="regulationVisible")
         div(v-for="item in regulations") {{item}}
 </template>
