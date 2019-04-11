@@ -23,7 +23,7 @@
         margin-top 8px
         .club-info
             border 1px solid #e5e5e5
-            border-left 5px solid #B8FFFD
+            border-left 5px solid #FFFCA6
             padding 16px
             .club-name
                 font-size 24px
@@ -35,7 +35,7 @@
             cursor pointer
             margin-top 16px
             border 1px solid #e5e5e5
-            border-left 5px solid #B8FFFD
+            border-left 5px solid #FFFCA6
             padding 16px
             .regulation-line
                 text-align left
@@ -49,7 +49,7 @@
         margin-top 8px
         .acitvity-list
             border 1px solid #e5e5e5
-            border-left 5px solid #B8FFFD
+            border-left 5px solid #FFFCA6
             padding 16px
             .acitvity-line
                 height 30px

@@ -19,6 +19,7 @@
         height 26px
         border-radius 50%
         position relative
+
 .el-main
     height calc(100% - 80px)
     overflow auto
@@ -27,7 +28,7 @@
 <template lang="pug">
 el-container
     el-header
-        el-menu(default-active="/main/UserCenter" 
+        el-menu(default-active=""
                 background-color="#545c64" text-color="#fff" active-text-color="#ffd04b"
                 mode="horizontal"
                 :router="true")
@@ -40,14 +41,14 @@ el-container
                 el-menu-item(index="/main/Finance") 财务管理
             el-menu-item(index="/main/Federation") 社联管理
     el-main
-        router-view
+        router-view.main-container
     el-dropdown.login(@command='userAction')
         img.avatar(src="../images/avatar.png")
         el-dropdown-menu(slot='dropdown')
             el-dropdown-item(command='userSetting') 个人设置
             el-dropdown-item(command='logout') 登出
     .title 社团管理系统
-            
+    
 </template>
 
 <script>

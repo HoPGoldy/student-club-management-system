@@ -1,13 +1,13 @@
 <style lang="stylus" scoped>
 .container
+    padding 0px
     display flex
     flex-direction row
     justify-content center
     .new-list
-        width 500px
-
+        width 30%
     .left-panel
-        width 300px
+        width 20%
         margin 8px 16px 0px 16px
         .user-info
             border 1px solid #e5e5e5
@@ -34,7 +34,12 @@
                 margin-top 8px
                 border-top 1px solid #888
                 padding 8px
-
+.background
+    position fixed
+    top -10%
+    height 150%
+    width 60%
+    background-color rgba(255, 255, 255, 0.7)
 .el-card
     margin 8px
 .clearfix:after 
@@ -46,6 +51,7 @@
 
 <template lang="pug">
 .container 
+    // .background
     .left-panel
         .user-info
             .welcome 欢迎回来
