@@ -15,6 +15,7 @@ import ClubList from './views/ClubList.vue'
 import ClubPage from './components/clubComp/ClubPage.vue'
 import NewActivity from './components/activityComp/NewActivity.vue'
 import ActivityDetail from './components/activityComp/ActivityDetail.vue'
+import MessageDetail from './components/clubComp/MessageDetail.vue'
 
 import Login from './views/login/Login'
 
@@ -33,6 +34,7 @@ const routes = [
       { path: 'Affair', component: Affair },
       { path: 'NewActivity', component: NewActivity },
       { path: 'ActivityDetail/:activityId', component: ActivityDetail, props: true },
+      { path: 'MessageDetail/:msgId', component: MessageDetail, props: true },
     ]
   }
 ]

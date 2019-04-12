@@ -7,6 +7,10 @@
     justify-content center
     .new-list
         width 65%
+        .enter-msg-fix
+            position absolute
+            top 42%
+            right -50px
     .left-panel
         width 35%
         margin 8px 16px 0px 16px
@@ -67,12 +71,13 @@
                     span {{club.name}}
                     span(style="float: right;") >
         .new-list
-            el-card(v-for="newInfo in news" shadow="hover")
-                .clearfix(slot="header")
-                    span(style="float: left; padding: 3px") {{newInfo.clubName}}
-                    span(style="float: right; padding: 3px") {{newInfo.date}}
-                .message {{newInfo.message}}
-    
+            .msg(v-for="newInfo in news" style="position:relative")
+                el-card(shadow="hover")
+                    .clearfix(slot="header")
+                        span(style="float: left; padding: 3px") {{newInfo.clubName}}
+                        span(style="float: right; padding: 3px") {{newInfo.date}}
+                    .message {{newInfo.message}}
+                el-button.enter-msg-fix(icon="el-icon-d-arrow-right" circle @click="$router.push(`/main/MessageDetail/${newInfo.id}`)")
 </template>
 
 <script>

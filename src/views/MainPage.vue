@@ -27,6 +27,7 @@
     display flex
     flex-direction column
     align-items center
+
 </style>
 
 <template lang="pug">
@@ -52,7 +53,6 @@ el-container
             el-dropdown-item(command='userSetting') 个人设置
             el-dropdown-item(command='logout') 登出
     .title 社团管理系统
-    
 </template>
 
 <script>

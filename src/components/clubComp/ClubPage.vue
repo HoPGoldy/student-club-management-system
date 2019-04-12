@@ -71,10 +71,15 @@
     padding-bottom 16px
 .el-card
     margin 8px
+    cursor pointer
 .clearfix:after 
     display table
     content ""
     clear both
+.go-back-button
+    position fixed
+    top 76px
+    left 16px
 </style>
 
 <template lang="pug">
@@ -97,7 +102,7 @@
                 .regulation-line(v-for="item in regulations")
                     span {{item}}
         .new-list
-            el-card(v-for="newInfo in news" shadow="hover")
+            el-card(v-for="newInfo in news" shadow="hover" @click.native="$router.push(`/main/MessageDetail/${newInfo.id}`)")
                 .clearfix(slot="header")
                     span(style="float: left; padding: 3px") {{newInfo.title}}
                     span(style="float: right; padding: 3px") {{newInfo.date}}
@@ -110,6 +115,7 @@
                     el-tag(style="float: right;" :type="item.stateType") {{item.stateContent}}
     el-dialog(title="规章制度" :visible.sync="regulationVisible")
         div(v-for="item in regulations") {{item}}
+    el-button.go-back-button(@click="$router.back()") 返回上一级
 </template>
 
 <script>
