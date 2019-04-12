@@ -105,7 +105,7 @@
         .right-panel
             .acitvity-list
                 .sub-title(style="border-bottom: 1px solid #e5e5e5") 活动
-                .acitvity-line(v-for="item in acitvitys")
+                .acitvity-line(v-for="item in acitvitys" @click="$router.push(`/main/ActivityDetail/${item.id}`)")
                     span.acitvity-title {{item.title}}
                     el-tag(style="float: right;" :type="item.stateType") {{item.stateContent}}
     el-dialog(title="规章制度" :visible.sync="regulationVisible")
@@ -147,20 +147,8 @@ export default {
 
             this.$get('/v1/club/getAcitvityById').then(resp => {
                 this.acitvitys = resp.data.data.map(item => {
-                    switch(item.state) {
-                        case 1:
-                            item.stateContent = '准备中'
-                            item.stateType = 'success'
-                        break
-                        case 2:
-                            item.stateContent = '进行中'
-                            item.stateType = ''
-                        break
-                        case 3:
-                            item.stateContent = '已结束'
-                            item.stateType = 'info'
-                        break
-                    }
+                    item.stateContent = this.config.activityState[item.state].content
+                    item.stateType = this.config.activityState[item.state].type
                     return item
                 })
             })

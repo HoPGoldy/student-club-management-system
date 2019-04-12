@@ -1,30 +1,40 @@
 <style lang="stylus" scoped>
-.container
+.header
+    width 60%
     display flex
-    flex-direction row
-    justify-content center
-    .club-list
-        width 500px
-        .club
-            text-align left
-            .title
-                margin-bottom 16px
-                font-size 24px
-                font-weight bolder
-            .enter
-                float right
-                margin 5px 16px
-                font-size 16px
-                cursor pointer
-            .introduce
-                font-size 16px
-            .member-num
-                font-size 16px
-                font-weight bolder
+    flex-flow row nowrap
+    align-items center
+    justify-content space-between
+    padding-bottom 16px
+    border-bottom 2px solid #888
+    .title
+        font-size 24px
+        font-weight bolder
+.club-list
+    width 60%
+    .club
+        text-align left
+        .title
+            margin-bottom 16px
+            font-size 24px
+            font-weight bolder
+        .enter
+            float right
+            margin 5px 16px
+            font-size 16px
+            cursor pointer
+        .introduce
+            font-size 16px
+        .member-num
+            font-size 16px
+            font-weight bolder
 </style>
 
 <template lang="pug">
 .container
+    .header
+        span.title 社团列表
+        span 挑选自己喜欢的社团并加入他！
     .club-list
         el-collapse(v-model="activeNames" accordion)
             el-collapse-item(v-for="clubItem, index in clubDatas" :title="clubItem.name" :name="index")

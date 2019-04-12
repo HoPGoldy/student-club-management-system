@@ -1,13 +1,14 @@
 <style lang="stylus" scoped>
-.container
+.content
+    width 60%
     padding 0px
     display flex
     flex-direction row
     justify-content center
     .new-list
-        width 30%
+        width 65%
     .left-panel
-        width 20%
+        width 35%
         margin 8px 16px 0px 16px
         .user-info
             border 1px solid #e5e5e5
@@ -50,26 +51,27 @@
 </style>
 
 <template lang="pug">
-.container 
-    // .background
-    .left-panel
-        .user-info
-            .welcome 欢迎回来
-            .user-name {{userInfo.name}}
-            div
-                span 当前身份 
-                span.user-level {{userInfo.level}}
-        .activity-info
-            .activity-title 已加入的社团
-            .added-club(v-for="club in userInfo.addedClub" @click="enterClub(club.id)")
-                span {{club.name}}
-                span(style="float: right;") >
-    .new-list
-        el-card(v-for="newInfo in news" shadow="hover")
-            .clearfix(slot="header")
-                span(style="float: left; padding: 3px") {{newInfo.clubName}}
-                span(style="float: right; padding: 3px") {{newInfo.date}}
-            .message {{newInfo.message}}
+.container
+    .content 
+        // .background
+        .left-panel
+            .user-info
+                .welcome 欢迎回来
+                .user-name {{userInfo.name}}
+                div
+                    span 当前身份 
+                    span.user-level {{userInfo.level}}
+            .activity-info
+                .activity-title 已加入的社团
+                .added-club(v-for="club in userInfo.addedClub" @click="enterClub(club.id)")
+                    span {{club.name}}
+                    span(style="float: right;") >
+        .new-list
+            el-card(v-for="newInfo in news" shadow="hover")
+                .clearfix(slot="header")
+                    span(style="float: left; padding: 3px") {{newInfo.clubName}}
+                    span(style="float: right; padding: 3px") {{newInfo.date}}
+                .message {{newInfo.message}}
     
 </template>
 

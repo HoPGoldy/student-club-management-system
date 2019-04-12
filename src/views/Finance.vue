@@ -22,7 +22,7 @@
 .container 
     .header
         .money
-            span 当前剩余 
+            span 当前社团经费剩余 
             span(style="font-weight:bolder;") ￥100
         .opreation
             el-button(type="success") 收入

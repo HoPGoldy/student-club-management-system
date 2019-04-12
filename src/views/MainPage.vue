@@ -23,6 +23,10 @@
 .el-main
     height calc(100% - 80px)
     overflow auto
+.main-container
+    display flex
+    flex-direction column
+    align-items center
 </style>
 
 <template lang="pug">

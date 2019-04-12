@@ -9,11 +9,15 @@ import VCharts from 'v-charts'
 import router from './router.js'
 // ajax
 import './api.js'
+// config
+import { global } from './mixin.js'
 
 Vue.config.productionTip = false
 
 Vue.use(ElementUI)
 Vue.use(VCharts)
+
+Vue.mixin(global)
 
 new Vue({
   router,
