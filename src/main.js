@@ -16,7 +16,6 @@ Vue.config.productionTip = false
 
 Vue.use(ElementUI)
 Vue.use(VCharts)
-
 Vue.mixin(global)
 
 new Vue({

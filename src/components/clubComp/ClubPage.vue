@@ -42,6 +42,15 @@
                 margin-top 8px
                 border-top 1px solid #888
                 padding 8px
+        .operation
+            margin-top 16px
+            display flex
+            flex-direction column
+            border 1px solid #e5e5e5
+            border-left 5px solid #FFFCA6
+            padding 16px
+            .el-button
+                width 100%
     .new-list
         width 30%
     .right-panel
@@ -101,6 +110,9 @@
                 .sub-title 规章制度
                 .regulation-line(v-for="item in regulations")
                     span {{item}}
+            .operation()
+                .sub-title 行动
+                el-button(type="primary" @click="joinClub") 加入社团
         .new-list
             el-card(v-for="newInfo in news" shadow="hover" @click.native="$router.push(`/main/MessageDetail/${newInfo.id}`)")
                 .clearfix(slot="header")
@@ -156,6 +168,19 @@ export default {
                     item.stateContent = this.config.activityState[item.state].content
                     item.stateType = this.config.activityState[item.state].type
                     return item
+                })
+            })
+        },
+        joinClub() {
+            this.$confirm('确认要加入该社团么？').then(resp => {
+                this.$post('/v1/user/sendJoinApply', {
+                    clubId: this.clubId,
+                    userId: '' // TODO 仍然需要个人id
+                }).then(resp => {
+                    this.$message({
+                        message: resp.data.data.msg,
+                        type: resp.data.data.state ? 'success' : 'error'
+                    })
                 })
             })
         }

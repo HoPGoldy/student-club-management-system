@@ -29,16 +29,19 @@
 .container 
     .login-box
         .title 社团管理系统
-        el-form(ref="loginForm" :model="loginData" :rules="formRules" label-width="80px")
-            el-form-item(label="用户名" prop="username")
-                el-input(v-model="loginData.username")
-            el-form-item(label="密码" prop="password")
-                el-input(v-model="loginData.password")
+        el-form(ref="loginForm" :model="loginData" :rules="formRules" label-width="5px")
+            el-form-item(label="" prop="username")
+                el-input(v-model="loginData.username" placeholder="在此处输入用户名")
+            el-form-item(label="" prop="password")
+                el-input(v-model="loginData.password" placeholder="在此处输入密码")
             el-button(type="primary" @click="onSubmit('loginForm')") 登入系统
-            el-button(@click="onRegist") 注册用户
+            el-button(@click="signVisable = !signVisable") 注册用户
+    el-dialog(title="注册" :visible.sync="signVisable")
+        sign(@submit-sign="signVisable = false")
 </template>
 
 <script>
+import Sign from './Sign'
 export default {
     name: 'Login',
     data: () => ({
@@ -47,27 +50,26 @@ export default {
             password: ''
         },
         formRules: {
-            username: [
-                { required: true, message: '请输入用户名', trigger: 'blur' },
-            ],
-            password: [
-                { required: true, message: '请输入密码', trigger: 'blur' },
-            ],
-        }
+            username: [{ required: true, message: '请输入用户名', trigger: 'blur' }],
+            password: [{ required: true, message: '请输入密码', trigger: 'blur' }],
+        },
+        signVisable: false
     }),
+    components: { Sign },
     methods: {
         onSubmit(formName) {
             this.$refs[formName].validate(valid => {
                 if (valid) {
                     console.log('提交信息', this.loginData)
-
-                    // 暂定登陆成功
-                    this.$router.push('/main/UserCenter')
-                    document.cookie += 'token=123321'
+                    this.$post('/v1/user/login', this.loginData).then(resp => {
+                        if (resp.data.data.state) {
+                            this.$router.push('/main/UserCenter')
+                            document.cookie += 'token=123321'
+                        }
+                    })                    
                 }
                 else {
                     this.$message.warning('请正确填写信息')
-                    
                 }
             })
             

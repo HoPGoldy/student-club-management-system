@@ -64,7 +64,7 @@
                 .user-name {{userInfo.name}}
                 div
                     span 当前身份 
-                    span.user-level {{userInfo.level}}
+                    span.user-level {{userInfo.levelName}}
             .activity-info
                 .activity-title 已加入的社团
                 .added-club(v-for="club in userInfo.addedClub" @click="enterClub(club.id)")
@@ -101,8 +101,9 @@ export default {
         this.$get('/v1/user/getNews').then(resp => {
             this.news = resp.data.data
         })
-        this.$get('/v1/user/getUserInfo').then(resp => {
+        this.$get('/v1/user/getUserInfoByToken').then(resp => {
             this.userInfo = resp.data.data
+            this.userInfo.levelName = this.config.levelMap[this.userInfo.level]
         })
     }
 }

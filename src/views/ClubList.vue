@@ -41,7 +41,7 @@
                 .club
                     div
                         span.title {{clubItem.name}}
-                        el-button.enter(size="small" @click="$router.push(`/main/ClubPage/${clubId}`)") 点此进入社团详情页 >
+                        el-button.enter(size="small" @click="$router.push(`/main/ClubPage/${clubItem.id}`)") 点此进入社团详情页 >
                     .introduce {{clubItem.introduce}}
                     div
                         span 社团人数 
@@ -56,7 +56,7 @@ export default {
         clubDatas: []
     }),
     methods: {
-        
+
     },
     mounted() {
         this.$get('/v1/club/getList').then(resp => {

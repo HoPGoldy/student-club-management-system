@@ -42,6 +42,9 @@
                 el-button(style="float: right; padding: 3px 0" type="text" @click="editData(1)") 修改
             .func-content()
                 div(v-for="line in funcList[1].data") {{line[0]}} - {{line[1]}}
+        send-message
+        join-club
+        exit-club
     el-dialog(title="规章制度编辑" :visible.sync="visibles[0]")
         el-input.regulation-input(v-for="line, index in funcList[0].data" type="textarea" v-model="funcList[0].data[index]" autosize)
         el-button(type="primary" @click="submitRegulation") 提交
@@ -54,6 +57,9 @@
 </template>
 
 <script>
+import SendMessage from '@/components/clubComp/SendMessage'
+import JoinClub from '@/components/clubComp/JoinClub'
+import ExitClub from '@/components/clubComp/ExitClub'
 export default {
     name: 'Affair',
     data: () => ({
@@ -72,6 +78,7 @@ export default {
         // 是否展示编辑页面 第一个是规章制度 第二个是人员安排
         visibles: [ false, false ],
     }),
+    components: { SendMessage, JoinClub, ExitClub }, 
     methods: {
         editData(funcIndex) {
             this.$set(this.visibles, funcIndex, !this.visibles[funcIndex])
@@ -83,14 +90,17 @@ export default {
         submitPeople() {
             console.log('提交', this.funcList[1].data)
             this.$set(this.visibles, 1, false)
+        },
+        fetch() {
+            this.funcList.map((item, index) => {
+                this.$get(item.getPath).then(resp => {
+                    this.funcList[index].data = resp.data.data
+                })
+            })
         }
     },
     mounted() {
-        this.funcList.map((item, index) => {
-            this.$get(item.getPath).then(resp => {
-                this.funcList[index].data = resp.data.data
-            })
-        })
+        this.fetch()
     }
 }
 </script>
