@@ -1,6 +1,7 @@
 import Vue from 'vue'
 import router from './router.js'
 import config from './config.js'
+import Qs from 'qs'
 
 const axios = require('axios')
 
@@ -31,13 +32,14 @@ export const $get = (path, params = {}, server='test') => {
     return axios({ url, params, method: 'get' })
 }
 
-export const $post = (url, data = {}) => {
+export const $post = (path, data = {}, server='test') => {
     data = Qs.stringify(data)
-
+    let url = /http/.test(path) ? path : config.servers[server] + path
     return axios({ url, data: data, method: 'post' })
 }
 
-export const $delete = (url, data = {}) => {
+export const $delete = (path, data = {}, server='test') => {
+    let url = /http/.test(path) ? path : config.servers[server] + path
     return axios({ url, data, method: 'delete' })
 }
 
