@@ -75,7 +75,7 @@ export default {
         }
     },
     mounted() {
-        this.$get('/v1/manager/getFinanceById').then(resp => {
+        this.$get('/v1/club/getFinanceById').then(resp => {
             this.financeData = resp.data.data
         })
     }
