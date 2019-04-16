@@ -46,7 +46,8 @@ export default {
         dealApply(memberId, opinion) {
             this.$post('/v1/club/dealExitApply', {
                 memberId: memberId,
-                opinion: opinion
+                opinion: opinion,
+                clubId: '' //TODO 该社团的id
             }).then(resp => {
                 this.$message({
                     message: resp.data.data.msg,
