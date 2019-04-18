@@ -54,7 +54,7 @@ export default {
                 if (valid) {
                     console.log(this.newMessageForm)
                     this.$confirm('确认推送新通知').then(resp => {
-                        this.$post('/v1/club/sendMessage', this.newMessageForm).then(resp => {
+                        this.$post('/v1/new/sendMessage', this.newMessageForm).then(resp => {
                             this.$message({
                                 message: resp.data.data.msg,
                                 type: resp.data.data.state ? 'success' : 'error'

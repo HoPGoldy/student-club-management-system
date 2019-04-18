@@ -13,8 +13,8 @@
         el-form-item(label='密码' prop="password")
             el-input(v-model='signForm.password')
         el-form-item(label='性别' prop="sex")
-            el-radio(v-model='signForm.sex', :label='true') 男
-            el-radio(v-model='signForm.sex', :label='false') 女
+            el-radio(v-model='signForm.sex', label='1') 男
+            el-radio(v-model='signForm.sex', label='0') 女
         el-form-item(label='姓名' prop="name")
             el-input(v-model='signForm.name')
         el-form-item(label='电话' prop="phone")
@@ -31,7 +31,7 @@ export default {
         signForm: {
             username: '',
             password: '',
-            sex: true,
+            sex: '',
             name: '',
             phone: '',
             email: ''
