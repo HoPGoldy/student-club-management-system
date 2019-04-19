@@ -24,8 +24,8 @@
             el-button(style="float: right; width:80px; padding: 3px" type="primary" size="medium" @click="sendMessage()") 提交
         .func-content(style="text-align:left")
             el-form(ref='newMessageForm' :rules="rules" :model='newMessageForm', label-width='80px')
-                el-form-item(label='通知名称' prop="name")
-                    el-input(v-model='newMessageForm.name')
+                el-form-item(label='通知名称' prop="title")
+                    el-input(v-model='newMessageForm.title')
                 el-form-item(label='通知内容' prop="content")
                     el-input(type="textarea" :autosize="{ minRows: 3, maxRows: 10}" v-model='newMessageForm.content')
                 el-form-item(label='推送成员' prop="member")
@@ -37,7 +37,7 @@ export default {
     name: 'SendMessage',
     data: () => ({
         newMessageForm: {
-            name: '',
+            title: '',
             content: '',
             member: []
         },

@@ -103,7 +103,7 @@ export default {
         refuse(applyId) {
             console.log('拒绝申请', applyId)
             this.detailVisable = false
-            this.$post('/v1/federation/dealClubApply', {
+            this.$post('/v1/federation/dealActivityApply', {
                 applyId: applyId,
                 opinion: 'refuse'
             }).then(resp => {
