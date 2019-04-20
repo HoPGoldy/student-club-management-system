@@ -13,7 +13,8 @@ export default {
         type: 'info'
     }],
     servers: {
-        test: 'https://easy-mock.com/mock/5cadfead29a8d4218251754e/student-club-management-system'
+        test: 'https://easy-mock.com/mock/5cadfead29a8d4218251754e/student-club-management-system',
+        local: 'http://localhost:3000'
     },
     levelMap: {
         1: '普通用户',

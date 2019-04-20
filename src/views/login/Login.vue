@@ -33,7 +33,7 @@
             el-form-item(label="" prop="username")
                 el-input(v-model="loginData.username" placeholder="在此处输入用户名")
             el-form-item(label="" prop="password")
-                el-input(v-model="loginData.password" placeholder="在此处输入密码")
+                el-input(v-model="loginData.password" placeholder="在此处输入密码" type="password")
             el-button(type="primary" @click="onSubmit('loginForm')") 登入系统
             el-button(@click="signVisable = !signVisable") 注册用户
     el-dialog(title="注册" :visible.sync="signVisable")
@@ -60,11 +60,13 @@ export default {
         onSubmit(formName) {
             this.$refs[formName].validate(valid => {
                 if (valid) {
-                    console.log('提交信息', this.loginData)
                     this.$post('/v1/user/login', this.loginData).then(resp => {
-                        if (resp.data.data.state) {
+                        if (resp.data.state) {
                             this.$router.push('/main/UserCenter')
-                            document.cookie += 'token=123321'
+                            // document.cookie += 'token=123321'
+                        }
+                        else {
+                            this.$message.error('登陆失败！')
                         }
                     })                    
                 }

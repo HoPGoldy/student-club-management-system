@@ -44,7 +44,7 @@ export default {
         rules: {
             name: [{ required: true, message: '请输入活动名称', trigger: 'blur' }],
             content: [{ required: true, message: '请输入活动说明', trigger: 'blur' }],
-            member: [{ required: true, message: '请选择参加人员', trigger: 'blur' }]
+            member: [{ required: true, message: '请选择要推送的人员', trigger: 'blur' }]
         },
         clubMember: []
     }),

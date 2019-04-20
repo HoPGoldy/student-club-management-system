@@ -118,7 +118,7 @@
                 .clearfix(slot="header")
                     span(style="float: left; padding: 3px") {{newInfo.title}}
                     span(style="float: right; padding: 3px") {{newInfo.date}}
-                .message {{newInfo.message}}
+                .message {{newInfo.content}}
         .right-panel
             .acitvity-list
                 .sub-title(style="border-bottom: 1px solid #e5e5e5") 活动
