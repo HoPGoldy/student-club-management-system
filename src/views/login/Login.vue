@@ -63,12 +63,13 @@ export default {
                     this.$post('/v1/user/login', this.loginData).then(resp => {
                         if (resp.data.state) {
                             this.$router.push('/main/UserCenter')
-                            // document.cookie += 'token=123321'
+                            this.session.token = resp.data.token
+                            document.cookie += `token=${resp.data.token}`
                         }
                         else {
                             this.$message.error('登陆失败！')
                         }
-                    })                    
+                    })
                 }
                 else {
                     this.$message.warning('请正确填写信息')

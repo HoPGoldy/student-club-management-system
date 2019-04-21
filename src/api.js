@@ -5,7 +5,7 @@ import Qs from 'qs'
 
 const axios = require('axios')
 
-let getCookie = (c_name) => {
+export let getCookie = (c_name) => {
     if (document.cookie.length > 0) {
         let c_start = document.cookie.indexOf(c_name + "=")
         if (c_start != -1) {

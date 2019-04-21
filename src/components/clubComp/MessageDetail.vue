@@ -66,10 +66,10 @@ export default {
     data: () => ({
         newDetail: {
             title: '--',
-            clubName: '--',
-            content: '--',
-            date: '--',
-            author: '--'
+                clubName: '--',
+                content: '--',
+                date: '--',
+                author: '--'
         }
     }),
     props: {
@@ -78,8 +78,10 @@ export default {
     components: { GoBack },
     methods: {
         fetch() {
-            this.$get('/v1/new/getDetailById').then(resp => {
-                this.newDetail = resp.data.data
+            this.$get('/v1/new/getDetailById', {
+                messageId: this.msgId
+            }).then(resp => {
+                this.newDetail = resp.data
             })
         }
     },
