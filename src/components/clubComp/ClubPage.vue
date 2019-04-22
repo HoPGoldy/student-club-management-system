@@ -127,6 +127,8 @@
                 .acitvity-line(v-for="item in acitvitys" @click="$router.push(`/main/ActivityDetail/${item.id}`)")
                     span.acitvity-title {{item.title}}
                     el-tag(style="float: right;" :type="item.stateType") {{item.stateContent}}
+                template(v-if="acitvitys.length == 0")
+                    h4(style="color:#888") 暂无活动
     el-dialog(title="规章制度" :visible.sync="regulationVisible")
         div(v-for="item in regulations") {{item}}
     el-button.go-back-button(@click="$router.back()") 返回上一级
@@ -180,6 +182,7 @@ export default {
                     item.stateType = this.config.activityState[item.state].type
                     return item
                 })
+                console.log(this.acitvitys)
             })
         },
         joinClub() {
