@@ -25,4 +25,6 @@ checkSession().then(() => {
         router,
         render: h => h(App),
     }).$mount('#app')
+}).catch(e => {
+    alert(e)
 })

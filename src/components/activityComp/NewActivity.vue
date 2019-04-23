@@ -80,8 +80,10 @@ export default {
             })
         },
         fetch() {
-            this.$get('/v1/club/getMemberById').then(resp => {
-                this.clubMember = resp.data.data
+            this.$get('/v1/club/getMemberById', {
+                    clubId: this.session.permission.clubId
+            }).then(resp => {
+                this.clubMember = resp.data
             })
         }
     },

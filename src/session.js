@@ -1,8 +1,10 @@
-import { getCookie } from './api.js'
+import { getCookie, $get } from './api.js'
 import router from './router.js'
+import { reject } from 'when';
 
 export const session$ = {
-    token: ''
+    token: '',
+    permission: {}
 }
 
 export const checkSession = function() {
@@ -13,9 +15,19 @@ export const checkSession = function() {
         }
         else {
             Object.assign(session$, { token })
-        }
 
-        resolve()
+            $get('/v1/user/getLevel', {
+                userId: token
+            }).then(resp => {
+                if ('state' in resp.data && resp.data.state == false) {
+                    reject('获取用户权限失败')
+                }
+                else {
+                    session$.permission = resp.data
+                    resolve()
+                }
+            })
+        }
     })
 }
 

@@ -54,10 +54,15 @@ export default {
                 if (valid) {
                     console.log(this.newMessageForm)
                     this.$confirm('确认推送新通知').then(resp => {
-                        this.$post('/v1/new/sendMessage', this.newMessageForm).then(resp => {
+                        let postData = JSON.parse(JSON.stringify(this.newMessageForm))
+                        postData.clubId = this.session.permission.clubId
+                        postData.authorId = this.session.token
+                        postData.member = JSON.stringify(this.newMessageForm.member)
+
+                        this.$post('/v1/new/sendMessage', postData).then(resp => {
                             this.$message({
-                                message: resp.data.data.msg,
-                                type: resp.data.data.state ? 'success' : 'error'
+                                message: resp.data.msg,
+                                type: resp.data.state ? 'success' : 'error'
                             })
                         })
                     })
@@ -66,8 +71,10 @@ export default {
         },
 
         fetch() {
-            this.$get('/v1/club/getMemberById').then(resp => {
-                this.clubMember = resp.data.data
+            this.$get('/v1/club/getMemberById', {
+                clubId: this.session.permission.clubId
+            }).then(resp => {
+                this.clubMember = resp.data
             })
         }
     },

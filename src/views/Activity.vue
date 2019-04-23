@@ -50,9 +50,9 @@
                     el-button(type="text" @click="showSetState(scope.row.id, scope.$index)" :disabled="scope.row.state === 0 ? true : false") 设置状态
     el-dialog(title="设置状态" :visible.sync="stateDialogVisable")
         el-steps(:active="changedState.value" finish-status="success" simple)
-            el-step(title="筹备中")
-            el-step(title="进行中")
-            el-step(title="已完成")
+            el-step(title="筹备中" icon="el-icon-tickets")
+            el-step(title="进行中" icon="el-icon-phone-outline")
+            el-step(title="已完成" icon="el-icon-view")
         el-button(style="margin-top:16px" type="primary" @click="changeNextState") 下一阶段！
 </template>
 
@@ -106,29 +106,43 @@ export default {
             })
         },
         submitState() {
-            if (this.changedState.value < 2) {
-                this.changedState.value ++
-            
+            console.log(this.changedState)
+            if (this.changedState.value <= 2) {
                 this.stateDialogVisable = false
-                console.log('提交', this.changedState)
-                
-                // 直接修改本地样式
-                let { index, value } = this.changedState
-                this.$set(this.activityData[index], 'stateContent', this.config.activityState[value].content)
-                this.$set(this.activityData[index], 'stateType', this.config.activityState[value].type)
-                this.$set(this.activityData[index], 'state', value) 
+
+                this.$post('/v1/activity/setActivityNextState', {
+                    activityId: this.changedState.id
+                }).then(resp => {
+                    if (resp.data.state) {
+                        this.fetch()
+                    }
+
+                    this.$message({
+                        type: resp.data.state ? 'success' : 'error',
+                        message: resp.data.msg
+                    })
+                })
+            }
+            else {
+                this.stateDialogVisable = false
+
+                this.$message.info('该活动已经是最终状态啦')
             }
         },
         fetch() {
-            this.$get('/v1/club/getAcitvityById').then(resp => {
-                this.activityData = resp.data.data.map(item => {
+            this.$get('/v1/club/getAcitvityById', {
+                    clubId: this.session.permission.clubId
+            }).then(resp => {
+                this.activityData = resp.data.map(item => {
                     item.stateContent = this.config.activityState[item.state].content
                     item.stateType = this.config.activityState[item.state].type
                     return item
                 })
             })
-            this.$get('/v1/club/getAcitvityInfoById').then(resp => {
-                resp.data.data.map((item, index) => {
+            this.$get('/v1/club/getAcitvityInfoById', {
+                    clubId: this.session.permission.clubId
+            }).then(resp => {
+                resp.data.map((item, index) => {
                     this.state[index].value = item
                 })
             })
