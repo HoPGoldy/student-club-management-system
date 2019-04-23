@@ -23,7 +23,7 @@
     .header
         .money
             span 当前社团经费剩余 
-            span(style="font-weight:bolder;") ￥100
+            span(style="font-weight:bolder;") ￥{{moneyValue}}
         .opreation
             el-button(type="success" @click="setDialog(true)") 收入
             el-button(type="warning" @click="setDialog(false)") 支出
@@ -47,6 +47,7 @@ export default {
     name: 'Finance',
     data: () => ({
         financeData: [],
+        moneyValue: 0,
         moneyForm: {
             title: '',
             value: 0,
@@ -67,17 +68,37 @@ export default {
         },
         onSubmit() {
             this.$confirm('确认提交？').then(resp => {
-                let form = this.moneyForm
-                form.mode = this.isIncome ? 'add' : 'reduce'
+                let postData = {
+                    value: this.moneyForm.value,
+                    mode: this.isIncome ? 'add' : 'reduce',
+                    introduce: this.moneyForm.introduce,
+                    clubId: this.session.permission.clubId
+                }
+                this.$post('/v1/finance/newDeal', postData).then(resp => {
+                    this.$message({
+                        type: resp.data.state ? 'success' : 'error',
+                        message: resp.data.msg
+                    })
+                    this.fetch()
+                })
                 this.moneyFormVisable = false
-                console.log('提交！', form)
+            })
+        },
+        fetch() {
+            this.$get('/v1/club/getFinanceById', {
+                    clubId: this.session.permission.clubId
+            }).then(resp => {
+                this.financeData = resp.data
+            })
+            this.$get('/v1/club/getInfoById', {
+                    clubId: this.session.permission.clubId
+            }).then(resp => {
+                this.moneyValue = resp.data.money
             })
         }
     },
     mounted() {
-        this.$get('/v1/club/getFinanceById').then(resp => {
-            this.financeData = resp.data.data
-        })
+        this.fetch()
     }
 }
 </script>

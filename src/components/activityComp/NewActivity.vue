@@ -70,6 +70,20 @@ export default {
     methods: {
         onSubmit() {
             this.$confirm('确认提交？该申请将提交至社联审核，您可在活动详情页中查看审核状态').then(() => {
+                let postData = {
+                    title: this.form.name,
+                    place: this.form.place,
+                    introduce: this.form.introduce,
+                    content: this.form.content,
+                    clubId: this.session.permission.clubId,
+                    startDate: this.form.date[0], 
+                    endDate: this.form.date[1],
+                    member: JSON.stringify(this.form.member)
+                }
+                this.$post('/v1/activity/newActivity', postData).then(resp => {
+                    console.log(resp)
+                })
+                
                 console.log('提交', this.form)
                 this.$router.back()
             })

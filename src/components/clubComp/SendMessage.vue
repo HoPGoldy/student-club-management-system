@@ -71,9 +71,11 @@ export default {
         },
 
         fetch() {
+            console.log(this.session.permission.clubId)
             this.$get('/v1/club/getMemberById', {
                 clubId: this.session.permission.clubId
             }).then(resp => {
+                console.log(resp)
                 this.clubMember = resp.data
             })
         }

@@ -108,11 +108,17 @@
                     span.info-list-item {{clubInfo.memberNum}}
             .regulation-info(@click="regulationVisible = !regulationVisible")
                 .sub-title 规章制度
-                .regulation-line(v-for="item in regulations")
+                .regulation-line(v-for="item in regulations" )
                     span {{item}}
             .operation()
                 .sub-title 行动
-                el-button(type="primary" @click="joinClub") 加入社团
+                template(v-if="visable.configClubButton")
+                    el-button(@click="$router.push(`/main/Affair`)") 社团管理
+                template(v-if="visable.joinClubButton")
+                    el-button(type="primary" @click="joinClub") 加入社团
+                template(v-if="visable.exitClubButton")
+                    el-button(type="danger" @click="exitClub") 退出社团
+                
         .new-list
             el-card(v-for="newInfo in news" shadow="hover" @click.native="$router.push(`/main/MessageDetail/${newInfo.id}`)")
                 .clearfix(slot="header")
@@ -147,6 +153,11 @@ export default {
             },
             regulations: [],
             acitvitys: [],
+            visable: {
+                joinClubButton: false,
+                exitClubButton: false,
+                configClubButton: false
+            },
             regulationVisible: false
         }
     },
@@ -185,6 +196,22 @@ export default {
                 console.log(this.acitvitys)
             })
         },
+        setPermission() {
+            let permission = this.session.permission
+            if (permission.level != 2) {
+                this.visable.joinClubButton = true
+
+                this.$get('/v1/user/getUserInfoByToken', {
+                    token: this.session.token
+                }).then(resp => {
+                    console.log('token', resp)
+                })
+            }
+            else if (permission.clubId == this.clubId) {
+                this.visable.configClubButton = true
+            }
+            console.log(permission)
+        },
         joinClub() {
             this.$confirm('确认要加入该社团么？').then(resp => {
                 this.$post('/v1/user/sendJoinApply', {
@@ -197,11 +224,15 @@ export default {
                     })
                 })
             })
+        },
+        exitClub() {
+            console.log('exitClub')
         }
     },
     mounted() {
         if (this.clubId) {
             this.fetch()
+            this.setPermission()
         }
         else {
             this.$message.error('跳转失败，未发现该社团')

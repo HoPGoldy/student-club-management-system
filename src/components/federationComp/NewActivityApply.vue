@@ -29,8 +29,8 @@
 .container
     el-table(:data="applyDatas")
         el-table-column(prop="clubName" label="申请社团" align="center")
-        el-table-column(prop="activity.name" label="活动名" align="center")
-        el-table-column(prop="organizerName" label="申请人" align="center")
+        el-table-column(prop="name" label="活动名" align="center")
+        el-table-column(prop="startDate" label="申请时间" align="center")
         el-table-column(label="操作" align="center")
             template(slot-scope="scope")
                 el-button(type="text" @click="showDetail(scope.$index)") 审核
@@ -49,14 +49,14 @@
             .line-content {{detailData.place}}
         .line
             .line-title 活动日期
-            .line-content {{detailData.date[0]}} 到 {{detailData.date[1]}}
-        .line
-            .line-title 参加人员
-            .line-content
-                li(v-for="people in detailData.member") {{people}}
+            .line-content {{detailData.startDate}} 到 {{detailData.endDate}}
+        // .line
+        //     .line-title 参加人员
+        //     .line-content
+        //         li(v-for="people in detailData.member") {{people}}
         .opreation
-            el-button(type="primary" @click="agree(detailData.applyId)") 同意
-            el-button(type="danger" @click="refuse(detailData.applyId)") 驳回
+            el-button(type="primary" @click="agree(detailData.id)") 同意
+            el-button(type="danger" @click="refuse(detailData.id)") 驳回
 </template>
 
 <script>
@@ -66,51 +66,55 @@ export default {
         applyDatas: [],
         detailVisable: false,
         detailData: {
+            id: null,
             name: '--',
             place: '--',
             introduce: '--',
             content: '--',
-            date: ['', ''],
-            member: [],
-            applyId: null
+            startDate: '--',
+            endDate: '--',
+            member: []
         }
     }),
     methods: {
         fetch() {
             this.$get('/v1/federation/getNewActivityApply').then(resp => {
-                this.applyDatas = resp.data.data
+                console.log(resp)
+                this.applyDatas = resp.data
             })
         },
         showDetail(applyIndex) {
             this.detailVisable = !this.detailVisable
+            
+            this.detailData = this.applyDatas[applyIndex]
             console.log(this.detailData)
-            this.detailData = this.applyDatas[applyIndex].activity
-            this.detailData.applyId = this.applyDatas[applyIndex].applyId
         },
-        agree(applyId) {
-            console.log('同意申请', applyId)
+        agree(activityId) {
+            console.log('同意申请', activityId)
             this.detailVisable = false
             this.$post('/v1/federation/dealActivityApply', {
-                applyId: applyId,
+                activityId: activityId,
                 opinion: 'agree'
             }).then(resp => {
                 this.$message({
-                    message: resp.data.data.msg,
-                    type: resp.data.data.state ? 'success' : 'error'
+                    message: resp.data.msg,
+                    type: resp.data.state ? 'success' : 'error'
                 })
+                this.fetch()
             })
         },
-        refuse(applyId) {
-            console.log('拒绝申请', applyId)
+        refuse(activityId) {
+            console.log('拒绝申请', activityId)
             this.detailVisable = false
             this.$post('/v1/federation/dealActivityApply', {
-                applyId: applyId,
+                activityId: activityId,
                 opinion: 'refuse'
             }).then(resp => {
                 this.$message({
-                    message: resp.data.data.msg,
-                    type: resp.data.data.state ? 'success' : 'error'
+                    message: resp.data.msg,
+                    type: resp.data.state ? 'success' : 'error'
                 })
+                this.fetch()
             })
         }
     },

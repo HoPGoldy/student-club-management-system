@@ -65,7 +65,8 @@ export default {
     methods: {
         fetch() {
             this.$get('/v1/federation/getNewClubApply').then(resp => {
-                this.applyDatas = resp.data.data
+                console.log(resp)
+                this.applyDatas = resp.data
             })
         },
         showDetail(applyIndex) {
@@ -75,27 +76,29 @@ export default {
         agree(applyId) {
             console.log('同意申请', applyId)
             this.detailVisable = false
-            this.$post('/v1/federation/dealClubApply', {
+            this.$post('/v1/federation/dealNewClubApply', {
                 applyId: applyId,
                 opinion: 'agree'
             }).then(resp => {
                 this.$message({
-                    message: resp.data.data.msg,
-                    type: resp.data.data.state ? 'success' : 'error'
+                    message: resp.data.msg,
+                    type: resp.data.state ? 'success' : 'error'
                 })
+                this.fetch()
             })
         },
         refuse(applyId) {
             console.log('拒绝申请', applyId)
             this.detailVisable = false
-            this.$post('/v1/federation/dealClubApply', {
+            this.$post('/v1/federation/dealNewClubApply', {
                 applyId: applyId,
                 opinion: 'refuse'
             }).then(resp => {
                 this.$message({
-                    message: resp.data.data.msg,
-                    type: resp.data.data.state ? 'success' : 'error'
+                    message: resp.data.msg,
+                    type: resp.data.state ? 'success' : 'error'
                 })
+                this.fetch()
             })
         }
     },
