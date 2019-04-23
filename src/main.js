@@ -11,14 +11,18 @@ import router from './router.js'
 import './api.js'
 // config
 import { global } from './mixin.js'
+import session, { checkSession } from './session.js'
 
 Vue.config.productionTip = false
 
 Vue.use(ElementUI)
 Vue.use(VCharts)
 Vue.mixin(global)
+Vue.mixin(session)
 
-new Vue({
-  router,
-  render: h => h(App),
-}).$mount('#app')
+checkSession().then(() => {
+    new Vue({
+        router,
+        render: h => h(App),
+    }).$mount('#app')
+})

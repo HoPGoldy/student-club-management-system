@@ -118,13 +118,17 @@
                 .clearfix(slot="header")
                     span(style="float: left; padding: 3px") {{newInfo.title}}
                     span(style="float: right; padding: 3px") {{newInfo.date}}
-                .message {{newInfo.message}}
+                .message {{newInfo.content}}
+            template(v-if="news.length == 0")
+                h1(style="color:#888") 暂无新消息
         .right-panel
             .acitvity-list
                 .sub-title(style="border-bottom: 1px solid #e5e5e5") 活动
                 .acitvity-line(v-for="item in acitvitys" @click="$router.push(`/main/ActivityDetail/${item.id}`)")
                     span.acitvity-title {{item.title}}
                     el-tag(style="float: right;" :type="item.stateType") {{item.stateContent}}
+                template(v-if="acitvitys.length == 0")
+                    h4(style="color:#888") 暂无活动
     el-dialog(title="规章制度" :visible.sync="regulationVisible")
         div(v-for="item in regulations") {{item}}
     el-button.go-back-button(@click="$router.back()") 返回上一级
@@ -151,24 +155,34 @@ export default {
     },
     methods: {
         fetch() {
-            this.$get('/v1/club/getInfoById').then(resp => {
-                this.clubInfo = resp.data.data
+            this.$get('/v1/club/getInfoById', {
+                clubId: this.clubId
+            }).then(resp => {
+                this.clubInfo = resp.data
             })
 
-            this.$get('/v1/club/getRegulationById').then(resp => {
-                this.regulations = resp.data.data
+            this.$get('/v1/club/getRegulationById', {
+                clubId: this.clubId
+            }).then(resp => {
+                this.regulations = resp.data
             })
 
-            this.$get('/v1/club/getNewById').then(resp => {
-                this.news = resp.data.data
+            this.$get('/v1/club/getNewById', {
+                clubId: this.clubId
+            }).then(resp => {
+                console.log('resp', resp)
+                this.news = resp.data
             })
 
-            this.$get('/v1/club/getAcitvityById').then(resp => {
-                this.acitvitys = resp.data.data.map(item => {
+            this.$get('/v1/club/getAcitvityById', {
+                clubId: this.clubId
+            }).then(resp => {
+                this.acitvitys = resp.data.map(item => {
                     item.stateContent = this.config.activityState[item.state].content
                     item.stateType = this.config.activityState[item.state].type
                     return item
                 })
+                console.log(this.acitvitys)
             })
         },
         joinClub() {

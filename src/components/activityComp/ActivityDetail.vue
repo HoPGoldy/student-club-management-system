@@ -56,7 +56,7 @@
             .line-content {{activityData.place}}
         .line
             .line-title 活动日期
-            .line-content {{activityData.date[0]}} 到 {{activityData.date[1]}}
+            .line-content {{activityData.startDate}} 到 {{activityData.endDate}}
         .line
             .line-title 参加人员
             .line-content
@@ -84,17 +84,24 @@ export default {
     },
     methods: {
         fetch() {
-            this.$get('/v1/activity/getDetailById').then(resp => {
-                this.activityData = resp.data.data
+            this.$get('/v1/activity/getDetailById', {
+                activityId: this.activityId
+            }).then(resp => {
+                console.log(resp.data)
+                this.activityData = resp.data
             })
         },
         joinActivity() {
             this.$confirm('确认要加入活动么？').then(resp => {
-                console.log('提交申请')
+                return this.$post('/v1/activity/joinActivity', {
+                    activityId: this.activityId,
+                    userId: this.session.token
+                })
+            }).then(resp => {
                 this.$message({
                     showClose: true,
-                    message: '申请已提交给社团负责人',
-                    type: 'success'
+                    message: resp.data.msg,
+                    type: resp.data.state ? 'success' : 'error'
                 })
             })
         }

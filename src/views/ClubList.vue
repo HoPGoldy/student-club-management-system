@@ -60,7 +60,7 @@ export default {
     },
     mounted() {
         this.$get('/v1/club/getList').then(resp => {
-            this.clubDatas = resp.data.data
+            this.clubDatas = resp.data
             this.clubDatas.map((item, index) => {
                 if (this.activeNames.length < 3) {
                     this.activeNames.push(index)

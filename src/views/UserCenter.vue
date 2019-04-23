@@ -98,11 +98,15 @@ export default {
         }
     },
     mounted() {
-        this.$get('/v1/user/getNews').then(resp => {
-            this.news = resp.data.data
+        this.$get('/v1/user/getNews', {
+            userId: this.session.token
+        }).then(resp => {
+            this.news = resp.data
         })
-        this.$get('/v1/user/getUserInfoByToken').then(resp => {
-            this.userInfo = resp.data.data
+        this.$get('/v1/user/getUserInfoByToken', {
+            token: this.session.token
+        }).then(resp => {
+            this.userInfo = resp.data
             this.userInfo.levelName = this.config.levelMap[this.userInfo.level]
         })
     }

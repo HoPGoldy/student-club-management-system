@@ -74,6 +74,7 @@ export default {
         logout() {
             console.log('登出')
             
+            document.cookie = 'token=0;expires=' + new Date(0).toUTCString()
             this.$router.push('/login')
         }
     }

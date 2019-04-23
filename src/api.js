@@ -5,7 +5,7 @@ import Qs from 'qs'
 
 const axios = require('axios')
 
-let getCookie = (c_name) => {
+export let getCookie = (c_name) => {
     if (document.cookie.length > 0) {
         let c_start = document.cookie.indexOf(c_name + "=")
         if (c_start != -1) {
@@ -27,15 +27,15 @@ axios.interceptors.request.use(axiosConfig => {
     return axiosConfig
 })
 
-export const $get = (path, params = {}, server='test') => {
+export const $get = (path, params = {}, server='local') => {
     let url = /http/.test(path) ? path : config.servers[server] + path
     return axios({ url, params, method: 'get' })
 }
 
-export const $post = (path, data = {}, server='test') => {
+export const $post = (path, data = {}, server='local') => {
     data = Qs.stringify(data)
     let url = /http/.test(path) ? path : config.servers[server] + path
-    return axios({ url, data: data, method: 'post' })
+    return axios({ url, data, method: 'post' })
 }
 
 export const $delete = (path, data = {}, server='test') => {
