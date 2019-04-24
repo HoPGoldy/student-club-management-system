@@ -41,6 +41,7 @@
 </template>
 
 <script>
+import { checkSession } from '../../session.js'
 import Sign from './Sign'
 export default {
     name: 'Login',
@@ -62,9 +63,11 @@ export default {
                 if (valid) {
                     this.$post('/v1/user/login', this.loginData).then(resp => {
                         if (resp.data.state) {
-                            this.$router.push('/main/UserCenter')
                             this.session.token = resp.data.token
                             document.cookie += `token=${resp.data.token}`
+                            checkSession().then(() => {
+                                this.$router.push('/main/UserCenter')
+                            })
                         }
                         else {
                             this.$message.error('登陆失败！')

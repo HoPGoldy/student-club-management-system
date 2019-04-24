@@ -73,7 +73,12 @@
                     font-size 18px
                     font-weight bolder
                     line-height 30px
-                
+.operation-list
+    display flex
+    flex-direction column
+    align-items flex-end
+    .el-button
+        margin-bottom 16px
 .sub-title
     font-size 24px
     font-weight bolder
@@ -110,14 +115,15 @@
                 .sub-title 规章制度
                 .regulation-line(v-for="item in regulations" )
                     span {{item}}
-            .operation()
+            .operation(v-if="visable.list")
                 .sub-title 行动
-                template(v-if="visable.configClubButton")
-                    el-button(@click="$router.push(`/main/Affair`)") 社团管理
-                template(v-if="visable.joinClubButton")
-                    el-button(type="primary" @click="joinClub") 加入社团
-                template(v-if="visable.exitClubButton")
-                    el-button(type="danger" @click="exitClub") 退出社团
+                .operation-list
+                    template(v-if="visable.configClubButton")
+                        el-button(@click="$router.push(`/main/Affair`)") 社团管理
+                    template(v-if="visable.joinClubButton")
+                        el-button(type="primary" @click="joinClub") 加入社团
+                    template(v-if="visable.exitClubButton")
+                        el-button(type="danger" @click="exitClub") 退出社团
                 
         .new-list
             el-card(v-for="newInfo in news" shadow="hover" @click.native="$router.push(`/main/MessageDetail/${newInfo.id}`)")
@@ -154,6 +160,7 @@ export default {
             regulations: [],
             acitvitys: [],
             visable: {
+                list: false,
                 joinClubButton: false,
                 exitClubButton: false,
                 configClubButton: false
@@ -181,7 +188,7 @@ export default {
             this.$get('/v1/club/getNewById', {
                 clubId: this.clubId
             }).then(resp => {
-                console.log('resp', resp)
+                // console.log('resp', resp)
                 this.news = resp.data
             })
 
@@ -193,40 +200,63 @@ export default {
                     item.stateType = this.config.activityState[item.state].type
                     return item
                 })
-                console.log(this.acitvitys)
+                // console.log(this.acitvitys)
             })
         },
         setPermission() {
             let permission = this.session.permission
             if (permission.level != 2) {
-                this.visable.joinClubButton = true
-
                 this.$get('/v1/user/getUserInfoByToken', {
                     token: this.session.token
                 }).then(resp => {
-                    console.log('token', resp)
+                    let joined = false
+                    resp.data.addedClub.map(item => {
+                        if (item.id == this.clubId && !joined) {
+                            this.setVisable('exitClubButton', true)
+                            joined = true
+                        }
+                    })
+                    if (!joined) {
+                        this.setVisable('joinClubButton', true)
+                    }
                 })
             }
             else if (permission.clubId == this.clubId) {
-                this.visable.configClubButton = true
+                this.setVisable('configClubButton', true)
             }
-            console.log(permission)
+        },
+        // 用于显示行动按钮时顺便显示行动标签框
+        setVisable(key, value) {
+            if (value) {
+                this.$set(this.visable, 'list', true)
+            }
+            this.$set(this.visable, key, value)
         },
         joinClub() {
             this.$confirm('确认要加入该社团么？').then(resp => {
                 this.$post('/v1/user/sendJoinApply', {
                     clubId: this.clubId,
-                    userId: '' // TODO 仍然需要个人id
+                    userId: this.session.token
                 }).then(resp => {
                     this.$message({
-                        message: resp.data.data.msg,
-                        type: resp.data.data.state ? 'success' : 'error'
+                        message: resp.data.msg,
+                        type: resp.data.state ? 'success' : 'error'
                     })
                 })
             })
         },
         exitClub() {
-            console.log('exitClub')
+            this.$confirm('确认要退出该社团么？').then(resp => {
+                this.$post('/v1/user/sendExitApply', {
+                    clubId: this.clubId,
+                    userId: this.session.token
+                }).then(resp => {
+                    this.$message({
+                        message: resp.data.msg,
+                        type: resp.data.state ? 'success' : 'error'
+                    })
+                })
+            })
         }
     },
     mounted() {

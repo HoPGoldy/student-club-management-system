@@ -84,11 +84,22 @@ export default {
             this.$set(this.visibles, funcIndex, !this.visibles[funcIndex])
         },
         submitRegulation() {
-            console.log('提交', this.funcList[0].data)
+        //     console.log('提交', this.session.permission.clubId, this.funcList[0].data)
+            
+            this.$post('/v1/club/setRegulation', {
+                clubId: this.session.permission.clubId,
+                regulation: JSON.stringify(this.funcList[0].data)
+            }).then(resp => {
+                this.$message({
+                    showClose: true,
+                    message: resp.data.msg,
+                    type: resp.data.state ? 'success' : 'error'
+                })
+            })
             this.$set(this.visibles, 0, false)
         },
         submitPeople() {
-            console.log('提交', this.funcList[1].data)
+            // console.log('提交', this.funcList[1].data)
             this.$set(this.visibles, 1, false)
         },
         fetch() {
@@ -96,7 +107,7 @@ export default {
                 this.$get(item.getPath, {
                     clubId: this.session.permission.clubId
                 }).then(resp => {
-                    console.log(resp)
+                    // console.log(resp)
                     this.funcList[index].data = resp.data
                 })
             })

@@ -87,7 +87,7 @@ export default {
             this.$get('/v1/activity/getDetailById', {
                 activityId: this.activityId
             }).then(resp => {
-                console.log(resp.data)
+                // console.log(resp.data)
                 this.activityData = resp.data
             })
         },

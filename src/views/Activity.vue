@@ -134,6 +134,7 @@ export default {
                     clubId: this.session.permission.clubId
             }).then(resp => {
                 this.activityData = resp.data.map(item => {
+                    console.log(resp)
                     item.stateContent = this.config.activityState[item.state].content
                     item.stateType = this.config.activityState[item.state].type
                     return item

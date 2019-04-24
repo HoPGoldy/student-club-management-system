@@ -19,6 +19,7 @@ export const checkSession = function() {
             $get('/v1/user/getLevel', {
                 userId: token
             }).then(resp => {
+                // console.log('getLevel', resp)
                 if ('state' in resp.data && resp.data.state == false) {
                     reject('获取用户权限失败')
                 }

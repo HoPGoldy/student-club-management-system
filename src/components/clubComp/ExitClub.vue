@@ -27,8 +27,8 @@
                 el-table-column(prop="reason" label="申请理由" align="center")
                 el-table-column(label="操作" align="center")
                     template(slot-scope="scope")
-                        el-button(type="text" @click="dealApply(scope.row.id, 'agree')") 同意
-                        el-button(type="text" @click="dealApply(scope.row.id, 'refuse')") 驳回
+                        el-button(type="text" @click="dealApply(scope.row.memberId, 'agree')") 同意
+                        el-button(type="text" @click="dealApply(scope.row.memberId, 'refuse')") 驳回
 </template>
 
 <script>
@@ -39,20 +39,25 @@ export default {
     }),
     methods: {
         fetch() {
-            this.$get('/v1/club/getExitApplyById').then(resp => {
-                this.exitApplyDatas = resp.data.data
+            this.$get('/v1/club/getExitApplyById', {
+                clubId: this.session.permission.clubId
+            }).then(resp => {
+                // console.log(resp)
+                this.exitApplyDatas = resp.data
             })
         },
         dealApply(memberId, opinion) {
             this.$post('/v1/club/dealExitApply', {
                 memberId: memberId,
-                opinion: opinion,
-                clubId: '' //TODO 该社团的id
+                clubId: this.session.permission.clubId,
+                opinion: opinion
             }).then(resp => {
+                // console.log(resp)
                 this.$message({
-                    message: resp.data.data.msg,
-                    type: resp.data.data.state ? 'success' : 'error'
+                    message: resp.data.msg,
+                    type: resp.data.state ? 'success' : 'error'
                 })
+                this.fetch()
             })
         }
     },

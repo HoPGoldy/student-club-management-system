@@ -39,12 +39,15 @@ el-container
                 :router="true")
             el-menu-item(index="/main/UserCenter") 个人中心
             el-menu-item(index="/main/ClubList") 社团列表
-            el-submenu(index="2")
-                template(slot="title") 社团管理
-                el-menu-item(index="/main/Affair") 事务管理
-                el-menu-item(index="/main/Activity") 活动管理
-                el-menu-item(index="/main/Finance") 财务管理
-            el-menu-item(index="/main/Federation") 社联管理
+            el-menu-item(index="/main/ActivityList") 我的活动
+            template(v-if="session.permission.level == 2")
+                el-submenu(index="2")
+                    template(slot="title") 社团管理
+                    el-menu-item(index="/main/Affair") 事务管理
+                    el-menu-item(index="/main/Activity") 活动管理
+                    el-menu-item(index="/main/Finance") 财务管理
+            template(v-if="session.permission.level == 3")
+                el-menu-item(index="/main/Federation") 社联管理
     el-main
         router-view.main-container
     el-dropdown.login(@command='userAction')
@@ -59,9 +62,7 @@ el-container
 export default {
     name: 'MainPage',
     data: () => ({
-        userInfo: {
-            name: '开发用户'
-        }
+
     }),
     methods: {
         userAction(key) {
@@ -69,7 +70,14 @@ export default {
                 case 'logout':
                     this.logout()
                 break
+                case 'userSetting':
+                    this.jumpToUserSetting()
+                break
             }
+        },
+        jumpToUserSetting() {
+            console.log(1)
+            this.$router.push('/main/UserSetting')
         },
         logout() {
             console.log('登出')
