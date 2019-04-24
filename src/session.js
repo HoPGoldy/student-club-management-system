@@ -12,10 +12,11 @@ export const checkSession = function() {
         let token = getCookie('token')
         if (token === '') {
             router.push('/login')
+            resolve()
         }
         else {
             Object.assign(session$, { token })
-
+            
             $get('/v1/user/getLevel', {
                 userId: token
             }).then(resp => {
