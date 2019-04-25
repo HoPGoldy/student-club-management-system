@@ -100,7 +100,8 @@
 .container
     .header
         el-carousel(:interval="4000" type="card" height="300px")
-            el-carousel-item(v-for="item in 6" :key="item")
+            el-carousel-item(v-for="picPath in picPaths")
+                el-image(style="width:100%; height:100%" :src="picPath" fit="cover")
     .content
         .left-panel
             .club-info
@@ -147,6 +148,7 @@
 </template>
 
 <script>
+import TotalPics from '../../images/clubImages'
 export default {
     name: 'ClubPage',
     data() {
@@ -165,7 +167,10 @@ export default {
                 exitClubButton: false,
                 configClubButton: false
             },
-            regulationVisible: false
+            regulationVisible: false,
+            totalPics: { ...TotalPics },
+            // 临时存放目录
+            picPaths: []
         }
     },
     props: {
@@ -201,6 +206,15 @@ export default {
                     return item
                 })
                 // console.log(this.acitvitys)
+            })
+        },
+        setRandPic(picNum) {
+            const MAX_PIC_NUM = this.config.maxPicNum
+            let picPaths = new Array(picNum).fill('')
+
+            this.picPaths = picPaths.map(() => {
+                let picName = Math.floor(Math.random() * MAX_PIC_NUM + 1)
+                return this.totalPics[picName]
             })
         },
         setPermission() {
@@ -263,6 +277,7 @@ export default {
         if (this.clubId) {
             this.fetch()
             this.setPermission()
+            this.setRandPic(3)
         }
         else {
             this.$message.error('跳转失败，未发现该社团')

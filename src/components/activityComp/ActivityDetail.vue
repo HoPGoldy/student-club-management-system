@@ -40,7 +40,7 @@
 .container
     .header
         span.title 活动详情
-        el-button(type="primary" @click="joinActivity") 加入活动
+        el-button(type="primary" :disabled="activityData.state == 3 ? true : false" @click="joinActivity") 加入活动
     .content
         .line
             .line-title 活动名称
@@ -48,6 +48,10 @@
         .line
             .line-title 活动简介
             .line-content {{activityData.introduce}}
+        .line
+            .line-title 活动进度
+            .line-content
+                el-tag(:type="activityData.stateType") {{activityData.stateContent}}
         .line
             .line-title 活动内容
             .line-content {{activityData.content}}
@@ -75,6 +79,7 @@ export default {
                 introduce: '--',
                 content: '--',
                 date: '--',
+                state: 0,
                 member: []
             }
         }
@@ -89,6 +94,9 @@ export default {
             }).then(resp => {
                 // console.log(resp.data)
                 this.activityData = resp.data
+                let state = this.activityData.state
+                this.activityData.stateContent = this.config.activityState[state].content
+                this.activityData.stateType = this.config.activityState[state].type
             })
         },
         joinActivity() {

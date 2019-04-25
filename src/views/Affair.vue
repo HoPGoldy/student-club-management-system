@@ -43,6 +43,7 @@
         //     .func-content()
         //         div(v-for="line in funcList[1].data") {{line[0]}} - {{line[1]}}
         send-message
+        update-club-pic
         join-club
         exit-club
     el-dialog(title="规章制度编辑" :visible.sync="visibles[0]")
@@ -58,6 +59,7 @@
 
 <script>
 import SendMessage from '@/components/clubComp/SendMessage'
+import UpdateClubPic from '@/components/clubComp/UpdateClubPic'
 import JoinClub from '@/components/clubComp/JoinClub'
 import ExitClub from '@/components/clubComp/ExitClub'
 export default {
@@ -78,7 +80,7 @@ export default {
         // 是否展示编辑页面 第一个是规章制度 第二个是人员安排
         visibles: [ false, false ],
     }),
-    components: { SendMessage, JoinClub, ExitClub }, 
+    components: { SendMessage, JoinClub, ExitClub, UpdateClubPic }, 
     methods: {
         editData(funcIndex) {
             this.$set(this.visibles, funcIndex, !this.visibles[funcIndex])

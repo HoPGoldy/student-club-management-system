@@ -12,5 +12,6 @@ module.exports = {
     config.resolve.alias
         .set('@', resolve('src'))
         .set('common', resolve('src/components/general'))
+        .set('image', resolve('src/images'))
     }
 }
