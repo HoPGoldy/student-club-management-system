@@ -39,7 +39,8 @@ export default {
         formRules: {
             username: [{ required: true, message: '请输入用户名', trigger: 'blur' }],
             password: [{ required: true, message: '请输入密码', trigger: 'blur' }],
-            name: [{ required: true, message: '请输入姓名', trigger: 'blur' }]
+            name: [{ required: true, message: '请输入姓名', trigger: 'blur' }],
+            sex: [{ required: true, message: '请输入性别', trigger: 'blur' }]
         },
     }),
     methods: {
@@ -49,8 +50,8 @@ export default {
                     console.log(this.signForm)
                     this.$post('/v1/user/sign', this.signForm).then(resp => {
                         this.$message({
-                            message: resp.data.data.msg,
-                            type: resp.data.data.state ? 'success' : 'error'
+                            message: resp.data.msg,
+                            type: resp.data.state ? 'success' : 'error'
                         })
                     })
                     this.$emit('submit-sign', true)
