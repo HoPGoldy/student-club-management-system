@@ -21,7 +21,7 @@
                 .opreation
                     el-button(type="primary" @click="chengePrincipal(clubItem.id)") 更换负责人
                     el-button(@click="$router.push(`/main/ClubPage/${clubItem.id}`)") 社团详情
-                    // el-button(type="danger" @click="removeClub(clubItem.id)") 删除社团
+                    el-button(type="danger" @click="removeClub(clubItem.id)") 删除社团
     el-dialog(title="更换负责人" :visible.sync="changePrincipalVisable")
         el-select(v-model='newPrincipal' placeholder='请选择新负责人')
             el-option(v-for='item in clubMembers' :label='item.label' :value='item.key')

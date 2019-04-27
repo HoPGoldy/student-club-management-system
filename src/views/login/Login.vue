@@ -70,7 +70,7 @@ export default {
                             })
                         }
                         else {
-                            this.$message.error('登陆失败！')
+                            this.$message.error('登陆失败！用户名或密码错误')
                         }
                     })
                 }

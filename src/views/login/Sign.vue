@@ -11,7 +11,9 @@
         el-form-item(label='用户名' prop="username")
             el-input(v-model='signForm.username')
         el-form-item(label='密码' prop="password")
-            el-input(v-model='signForm.password')
+            el-input(v-model='signForm.password' type="password")
+        el-form-item(label='重复密码' prop="passwordConfirm")
+            el-input(v-model='signForm.passwordConfirm' type="password")
         el-form-item(label='性别' prop="sex")
             el-radio(v-model='signForm.sex', label='1') 男
             el-radio(v-model='signForm.sex', label='0') 女
@@ -31,6 +33,7 @@ export default {
         signForm: {
             username: '',
             password: '',
+            passwordConfirm: '',
             sex: '',
             name: '',
             phone: '',
@@ -39,12 +42,20 @@ export default {
         formRules: {
             username: [{ required: true, message: '请输入用户名', trigger: 'blur' }],
             password: [{ required: true, message: '请输入密码', trigger: 'blur' }],
-            name: [{ required: true, message: '请输入姓名', trigger: 'blur' }],
-            sex: [{ required: true, message: '请输入性别', trigger: 'blur' }]
+            passwordConfirm: [{ required: true, message: '请重复密码', trigger: 'blur' }],
+            name: [{ required: true, message: '请输入姓名', trigger: 'blur' }]
         },
     }),
     methods: {
         onSign() {
+            if (this.signForm.password === this.signForm.passwordConfirm) {
+                this.submitSign()
+            }
+            else {
+                this.$message.error('两次重复的密码不一致')
+            }
+        },
+        submitSign() {
             this.$refs.signForm.validate((valid) => {
                 if (valid) {
                     console.log(this.signForm)
