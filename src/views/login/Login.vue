@@ -27,7 +27,7 @@
 
 <template lang="pug">
 .container 
-    .login-box
+    .login-box(v-loading="logining" :element-loading-text="loginMsg")
         .title 社团管理系统
         el-form(ref="loginForm" :model="loginData" :rules="formRules" label-width="5px")
             el-form-item(label="" prop="username")
@@ -54,23 +54,36 @@ export default {
             username: [{ required: true, message: '请输入用户名', trigger: 'blur' }],
             password: [{ required: true, message: '请输入密码', trigger: 'blur' }],
         },
-        signVisable: false
+        signVisable: false,
+        logining: false,
+        loginMsg: '登录中，请稍候...'
     }),
     components: { Sign },
     methods: {
         onSubmit(formName) {
             this.$refs[formName].validate(valid => {
                 if (valid) {
+                    this.logining = true
+                    this.loginMsg = '登录中，请稍候...'
                     this.$post('/v1/user/login', this.loginData).then(resp => {
                         if (resp.data.state) {
                             this.session.token = resp.data.token
-                            document.cookie += `token=${resp.data.token}`
+                            this.loginMsg = '验证完成，正在加载本地缓存'
+
+                            document.cookie = 'token=0;expires=' + new Date(0).toUTCString()
+                            document.cookie = `token=${resp.data.token}`
+
+                            this.loginMsg = '加载完成，正在获取用户权限...'
                             checkSession().then(() => {
+                                this.loginMsg = '加载完成，正在进入系统'
+                                this.logining = false
+
                                 this.$router.push('/main/UserCenter')
                             })
                         }
                         else {
                             this.$message.error('登陆失败！用户名或密码错误')
+                            this.logining = false
                         }
                     })
                 }

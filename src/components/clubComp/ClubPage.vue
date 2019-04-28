@@ -194,7 +194,7 @@ export default {
                 clubId: this.clubId
             }).then(resp => {
                 // console.log('resp', resp)
-                this.news = resp.data
+                this.news = resp.data.reverse()
             })
 
             this.$get('/v1/club/getAcitvityById', {

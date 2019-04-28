@@ -147,7 +147,7 @@ export default {
             this.$get('/v1/user/getNews', {
                 userId: this.session.token
             }).then(resp => {
-                this.news = resp.data
+                this.news = resp.data.reverse()
             })
             this.$get('/v1/user/getUserInfoByToken', {
                 token: this.session.token
