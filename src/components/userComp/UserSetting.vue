@@ -28,7 +28,7 @@
     .content
         el-form(ref='userInfoForm' :rules="rules" :model='userInfoForm', label-width='80px')
             el-form-item(label='密码' prop="password")
-                el-input(v-model='userInfoForm.password')
+                el-input(v-model='userInfoForm.password' type="password")
             el-form-item(label='姓名' prop="name")
                 el-input(v-model='userInfoForm.name')
             el-form-item(label='性别' prop="sex")
