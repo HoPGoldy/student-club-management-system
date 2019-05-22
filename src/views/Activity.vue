@@ -119,7 +119,8 @@ export default {
 
                     this.$message({
                         type: resp.data.state ? 'success' : 'error',
-                        message: resp.data.msg
+                        message: resp.data.msg,
+                        showClose: true
                     })
                 })
             }

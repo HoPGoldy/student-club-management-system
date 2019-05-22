@@ -26,19 +26,20 @@ axios.interceptors.request.use(axiosConfig => {
 
     return axiosConfig
 })
-
-export const $get = (path, params = {}, server='productionHttps') => {
+// productionHttps
+// local
+export const $get = (path, params = {}, server='local') => {
     let url = /http/.test(path) ? path : config.servers[server] + path
     return axios({ url, params, method: 'get' })
 }
 
-export const $post = (path, data = {}, server='productionHttps') => {
+export const $post = (path, data = {}, server='local') => {
     data = Qs.stringify(data)
     let url = /http/.test(path) ? path : config.servers[server] + path
     return axios({ url, data, method: 'post' })
 }
 
-export const $delete = (path, data = {}, server='productionHttps') => {
+export const $delete = (path, data = {}, server='local') => {
     let url = /http/.test(path) ? path : config.servers[server] + path
     return axios({ url, data, method: 'delete' })
 }

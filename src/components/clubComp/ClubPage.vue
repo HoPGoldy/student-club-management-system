@@ -181,6 +181,16 @@ export default {
             this.$get('/v1/club/getInfoById', {
                 clubId: this.clubId
             }).then(resp => {
+                console.log(resp)
+                if (resp.data.deleteFlag) {
+                    this.$alert('该社团已被暂时封禁，点击确定返回上一级', '封禁社团', {
+                        confirmButtonText: '确定',
+                        type: 'error',
+                        callback: action => {
+                            this.$router.back()
+                        }
+                    })
+                }
                 this.clubInfo = resp.data
             })
 

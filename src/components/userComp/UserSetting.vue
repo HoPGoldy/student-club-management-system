@@ -68,7 +68,8 @@ export default {
             this.$post('/v1/user/updatePersonlInfo', this.userInfoForm).then(resp => {
                 this.$message({
                     message: resp.data.msg,
-                    type: resp.data.state ? 'success' : 'error'
+                    type: resp.data.state ? 'success' : 'error',
+                    showClose: true
                 })
             })
             

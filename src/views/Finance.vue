@@ -77,7 +77,8 @@ export default {
                 this.$post('/v1/finance/newDeal', postData).then(resp => {
                     this.$message({
                         type: resp.data.state ? 'success' : 'error',
-                        message: resp.data.msg
+                        message: resp.data.msg,
+                        showClose: true
                     })
                     this.fetch()
                 })

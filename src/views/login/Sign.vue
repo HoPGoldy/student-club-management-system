@@ -62,7 +62,8 @@ export default {
                     this.$post('/v1/user/sign', this.signForm).then(resp => {
                         this.$message({
                             message: resp.data.msg,
-                            type: resp.data.state ? 'success' : 'error'
+                            type: resp.data.state ? 'success' : 'error',
+                            showClose: true
                         })
                     })
                     this.$emit('submit-sign', true)

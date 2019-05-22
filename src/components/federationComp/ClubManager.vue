@@ -21,7 +21,8 @@
                 .opreation
                     el-button(type="primary" @click="chengePrincipal(clubItem.id)") 更换负责人
                     el-button(@click="$router.push(`/main/ClubPage/${clubItem.id}`)") 社团详情
-                    el-button(type="danger" @click="removeClub(clubItem.id)") 删除社团
+                    el-button(type="danger" v-if="!clubItem.deleteFlag" @click="banClub(clubItem.id)") 封禁社团
+                    el-button(type="warning" v-if="clubItem.deleteFlag" @click="unbanClub(clubItem.id)") 解封社团
     el-dialog(title="更换负责人" :visible.sync="changePrincipalVisable")
         el-select(v-model='newPrincipal' placeholder='请选择新负责人')
             el-option(v-for='item in clubMembers' :label='item.label' :value='item.key')
@@ -43,6 +44,7 @@ export default {
     methods: {
         fetch() {
             this.$get('/v1/club/getList').then(resp => {
+                console.log("TCL: fetch -> resp", resp)
                 this.clubDatas = resp.data
             })
         },
@@ -57,20 +59,35 @@ export default {
             })
             console.log('更换负责人', clubId)
         },
-        removeClub(clubId) {
-            this.$confirm('确认删除该社团？该行为无法撤销').then(resp => {
-                this.$post('/v1/club/remove', {
-                    clubId: this.selectedClubId,
-                    memberId: this.newPrincipal
+        unbanClub(clubId) {
+            this.$confirm('确认解封该社团？').then(resp => {
+                this.$post('/v1/federation/unBan', {
+                    clubId: clubId,
                 }).then(resp => {
                     this.$message({
-                        message: resp.data.data.msg,
-                        type: resp.data.data.state ? 'success' : 'error'
+                        message: resp.data.msg,
+                        type: resp.data.state ? 'success' : 'error',
+                        showClose: true
                     })
+                    this.fetch()
+                })
+            })
+        },
+        banClub(clubId) {
+            this.$confirm('确认封禁该社团？').then(resp => {
+                this.$post('/v1/federation/ban', {
+                    clubId: clubId,
+                }).then(resp => {
+                    this.$message({
+                        message: resp.data.msg,
+                        type: resp.data.state ? 'success' : 'error',
+                        showClose: true
+                    })
+                    this.fetch()
                 })
             })
             
-            console.log('删除社团', clubId)
+            console.log('封禁社团', clubId)
         },
         submitPrincipal() {
             this.$post('/v1/federation/chengePrincipal', {
@@ -79,7 +96,8 @@ export default {
             }).then(resp => {
                 this.$message({
                     message: resp.data.msg,
-                    type: resp.data.state ? 'success' : 'error'
+                    type: resp.data.state ? 'success' : 'error',
+                    showClose: true
                 })
             })
         }

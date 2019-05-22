@@ -55,7 +55,8 @@ export default {
                 // console.log(resp)
                 this.$message({
                     message: resp.data.msg,
-                    type: resp.data.state ? 'success' : 'error'
+                    type: resp.data.state ? 'success' : 'error',
+                    showClose: true
                 })
                 this.fetch()
             })
