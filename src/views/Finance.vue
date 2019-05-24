@@ -24,7 +24,7 @@
         .money
             span 当前社团经费剩余 
             span(style="font-weight:bolder;") ￥{{moneyValue}}
-        .opreation
+        .opreation(v-if="!clubId")
             el-button(type="success" @click="setDialog(true)") 收入
             el-button(type="warning" @click="setDialog(false)") 支出
     .content
@@ -53,7 +53,9 @@ export default {
             value: 0,
             introduce: ''
         },
+        clubId: undefined,
         moneyFormVisable: false,
+        showOperation: true,
         isIncome: true,
         rules: {
             value: [{ required: true, message: '请输入金额', trigger: 'blur' }],
@@ -87,18 +89,26 @@ export default {
         },
         fetch() {
             this.$get('/v1/club/getFinanceById', {
-                    clubId: this.session.permission.clubId
+                    clubId: this.clubId || this.session.permission.clubId
             }).then(resp => {
                 this.financeData = resp.data
             })
             this.$get('/v1/club/getInfoById', {
-                    clubId: this.session.permission.clubId
+                    clubId: this.clubId || this.session.permission.clubId
             }).then(resp => {
                 this.moneyValue = resp.data.money
+
+                if (this.moneyValue < 0 && !this.clubId) {
+                    this.$alert('社团剩余经费不足，请注意保持收支平衡', '经费不足', {
+                        confirmButtonText: '确定',
+                        type: 'warning'
+                    })
+                }
             })
         }
     },
     mounted() {
+        this.clubId = this.$route.query.clubId
         this.fetch()
     }
 }

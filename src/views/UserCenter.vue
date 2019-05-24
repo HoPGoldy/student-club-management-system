@@ -106,6 +106,8 @@
             template(v-if="userInfo.addedClub.length == 0")
                 h1(style="color:#888") 您还没有任何新消息，快去加入一个新社团吧
                 el-button(type="primary" @click="$router.push('/main/ClubList')") 点此查看社团列表
+            template(v-else-if="news.length == 0")
+                h1(style="color:#888") 暂无新消息
 </template>
 
 <script>

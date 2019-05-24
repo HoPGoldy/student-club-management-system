@@ -119,6 +119,7 @@
             .operation(v-if="visable.list")
                 .sub-title 行动
                 .operation-list
+                    el-button( @click="jumpToFinance") 查看财务
                     template(v-if="visable.configClubButton")
                         el-button(@click="$router.push(`/main/Affair`)") 社团管理
                     template(v-if="visable.joinClubButton")
@@ -162,7 +163,7 @@ export default {
             regulations: [],
             acitvitys: [],
             visable: {
-                list: false,
+                list: true,
                 joinClubButton: false,
                 exitClubButton: false,
                 configClubButton: false
@@ -217,6 +218,9 @@ export default {
                 })
                 // console.log(this.acitvitys)
             })
+        },
+        jumpToFinance() {
+            this.$router.push({ path:'/main/Finance', query: { clubId: this.clubId} })
         },
         setRandPic(picNum) {
             const MAX_PIC_NUM = this.config.maxPicNum
