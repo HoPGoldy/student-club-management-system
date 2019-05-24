@@ -48,6 +48,7 @@
         exit-club
     el-dialog(title="规章制度编辑" :visible.sync="visibles[0]")
         el-input.regulation-input(v-for="line, index in funcList[0].data" type="textarea" v-model="funcList[0].data[index]" autosize)
+        br
         el-button(type="primary" @click="submitRegulation") 提交
     // el-dialog(title="人员安排编辑" :visible.sync="visibles[1]")
     //     el-form(label-width="120px")
