@@ -12,7 +12,7 @@
     "css-loader": "^1.0.1",
     "echarts": "^4.2.0-rc.2",
     "element-ui": "^2.4.11",
-    "pug": "^2.0.3",
+    "pug": "^3.0.1",
     "pug-plain-loader": "^1.0.0",
     "style-loader": "^0.23.1",
     "stylus": "^0.54.5",
